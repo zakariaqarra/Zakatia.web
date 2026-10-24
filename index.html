@@ -1,0 +1,541 @@
+<title>موقع زكريا القرا</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+:root {
+  /* Layout: dark cinematic single-column scroll. A camera viewfinder frames the hero; one tatreez band is the only ornament. */
+  --ground: #0b0d0c;
+  --surface: #121614;
+  --surface-2: #19201c;
+  --line: #27312b;
+  --fg: #f3f1ea;
+  --muted: #a4aca6;
+  --green: #22a45d;
+  --green-ink: #04210f;
+  --red: #d83b3b;
+  --font-display: 'Aref Ruqaa', 'Noto Naskh Arabic', serif;
+  --font-body: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --tat: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Cg fill='%23d83b3b'%3E%3Crect x='12' y='0' width='4' height='4'/%3E%3Crect x='8' y='4' width='4' height='4'/%3E%3Crect x='16' y='4' width='4' height='4'/%3E%3Crect x='12' y='8' width='4' height='4'/%3E%3C/g%3E%3Cg fill='%2322a45d'%3E%3Crect x='0' y='4' width='4' height='4'/%3E%3Crect x='24' y='4' width='4' height='4'/%3E%3C/g%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--ground); }
+body {
+  margin: 0; color: var(--fg); font: 400 16px/1.85 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--ground); }
+a { color: inherit; }
+.wrap { max-width: 1080px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.25; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--ground); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.brand { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; text-decoration: none; margin-inline-end: auto; }
+.nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.nav a { text-decoration: none; padding: 4px 10px; border-radius: 6px; color: var(--muted); font-size: .95rem; }
+.nav a:hover, .nav a:focus-visible { color: var(--fg); background: var(--surface-2); }
+.me { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
+.me img { width: 28px; height: 28px; border-radius: 50%; }
+.role { border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; font-size: .8rem; color: var(--fg); }
+.role.admin { border-color: var(--green); color: var(--green); }
+
+/* buttons & inputs */
+.btn { font: 600 .95rem var(--font-body); background: var(--green); color: var(--green-ink); border: 0; border-radius: 8px; padding: 8px 18px; cursor: pointer; text-decoration: none; display: inline-block; }
+.btn:hover { filter: brightness(1.1); }
+.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+.btn.danger { background: transparent; color: var(--red); border: 1px solid var(--red); }
+.btn.small { padding: 3px 12px; font-size: .85rem; }
+.btn:disabled { opacity: .5; cursor: default; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+input[type=text], input[type=search], select, textarea { font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; width: 100%; }
+textarea { resize: vertical; }
+label.f { display: grid; gap: 4px; font-size: .9rem; color: var(--muted); min-width: 0; }
+
+/* hero */
+.hero { padding-block: clamp(28px, 7vw, 72px); }
+.finder { position: relative; padding: clamp(32px, 7vw, 72px) clamp(20px, 5vw, 56px); }
+.finder i { position: absolute; width: 30px; height: 30px; border: 2px solid var(--fg); opacity: .65; }
+.finder .tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.finder .tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.finder .bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.finder .br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+.rec { position: absolute; top: 10px; right: 46px; display: flex; align-items: center; gap: 8px; font-size: .8rem; letter-spacing: .08em; color: var(--muted); }
+.rec b { width: 9px; height: 9px; border-radius: 50%; background: var(--red); animation: blink 1.6s steps(2, jump-none) infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+@media (prefers-reduced-motion: reduce) { .rec b { animation: none; } html { scroll-behavior: auto; } }
+html { scroll-behavior: smooth; }
+.hero h1 { font-size: clamp(3.2rem, 12vw, 7rem); }
+.hero .lead { max-width: 34em; margin-top: 18px; font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--muted); }
+.hero .lead strong { color: var(--fg); font-weight: 500; }
+.cta { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+.band { height: 14px; background: var(--tat) repeat-x center; }
+
+/* sections */
+.sec { padding-block: clamp(40px, 7vw, 80px); scroll-margin-top: calc(70px + env(safe-area-inset-top, 0px)); }
+.sec + .sec { border-top: 1px solid var(--line); }
+.eyebrow { color: var(--red); font-size: .85rem; letter-spacing: .08em; margin-bottom: 6px; }
+.sec h2 { font-size: clamp(1.9rem, 5vw, 2.8rem); margin-bottom: 20px; }
+.cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(20px, 5vw, 56px); }
+.cols > * { min-width: 0; }
+.about p + p { margin-top: 14px; }
+.skills { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.skills li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.skills li:first-child { border-top: 1px solid var(--line); }
+.titles { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 14px; font-size: .9rem; background: transparent; color: var(--fg); font-family: inherit; cursor: default; }
+button.chip { cursor: pointer; }
+button.chip[aria-pressed=true] { background: var(--green); color: var(--green-ink); border-color: var(--green); }
+
+/* gallery */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; display: flex; flex-direction: column; }
+.item .media { aspect-ratio: 4 / 3; width: 100%; max-width: 100%; object-fit: cover; background: var(--surface-2); display: block; }
+.item .cap { padding: 10px 12px; font-size: .92rem; display: grid; gap: 6px; flex: 1; }
+.item .tag { color: var(--muted); font-size: .8rem; }
+.empty { border: 1px dashed var(--line); border-radius: 10px; padding: 28px 20px; color: var(--muted); text-align: center; }
+.lock { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 24px 20px; display: grid; gap: 10px; justify-items: start; }
+.lock strong { font-family: var(--font-display); font-size: 1.3rem; }
+.lock p { color: var(--muted); max-width: 40em; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 12px; margin-bottom: 20px; }
+.panel h3 { font-size: 1.2rem; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+
+/* projects */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.tile { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; background: var(--surface); display: flex; justify-content: space-between; gap: 10px; align-items: center; min-width: 0; }
+.tile h3 { font-size: 1.15rem; font-family: var(--font-body); font-weight: 600; }
+.tile .n { color: var(--green); font-size: .85rem; white-space: nowrap; }
+.areas { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; color: var(--muted); }
+
+/* contact */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.card { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; min-width: 0; }
+.card .k { color: var(--muted); font-size: .85rem; }
+.card .v { font-size: 1.15rem; direction: ltr; text-align: right; overflow-wrap: anywhere; user-select: all; }
+
+/* admin */
+.users { display: grid; gap: 8px; }
+.user { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; background: var(--surface-2); }
+.user .nm { margin-inline-end: auto; min-width: 0; overflow-wrap: anywhere; }
+.badge { background: var(--red); color: #fff; border-radius: 999px; font-size: .75rem; padding: 0 8px; margin-inline-start: 6px; }
+.chk { display: inline-flex; gap: 6px; align-items: center; font-size: .9rem; cursor: pointer; }
+.chk input { width: 18px; height: 18px; accent-color: var(--green); }
+.note { color: var(--muted); font-size: .88rem; }
+
+footer { padding-block: 28px 40px; color: var(--muted); font-size: .9rem; }
+footer .wrap { display: grid; gap: 14px; }
+
+/* chat */
+.fab { position: fixed; z-index: 25; left: calc(16px + env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--green); color: var(--green-ink); border: 0; border-radius: 999px; padding: 12px 20px; font: 600 1rem var(--font-body); cursor: pointer; box-shadow: 0 6px 24px rgba(0,0,0,.5); display: flex; gap: 8px; align-items: center; }
+.chat { position: fixed; z-index: 26; left: calc(16px + env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: min(400px, calc(100vw - 32px)); height: min(600px, calc(100vh - 100px)); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,.6); overflow: hidden; }
+.chat-h { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+.chat-h strong { font-family: var(--font-display); font-size: 1.2rem; }
+.msgs { flex: 1; overflow-y: auto; padding: 14px; display: grid; gap: 10px; align-content: start; }
+.m { padding: 8px 12px; border-radius: 12px; max-width: 92%; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; line-height: 1.7; }
+.m.u { background: var(--green); color: var(--green-ink); justify-self: start; }
+.m.a { background: var(--surface-2); border: 1px solid var(--line); justify-self: end; }
+.sugg { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 10px; }
+.sugg button { font: inherit; font-size: .82rem; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 12px; cursor: pointer; text-align: start; }
+.sugg button:hover { color: var(--fg); border-color: var(--green); }
+.chat-f { display: flex; gap: 8px; padding: 10px; border-top: 1px solid var(--line); align-items: flex-end; }
+.chat-f textarea { min-height: 42px; max-height: 120px; }
+.toast { position: fixed; z-index: 40; right: 50%; transform: translateX(50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--ground); padding: 8px 18px; border-radius: 8px; font-size: .92rem; max-width: calc(100vw - 32px); }
+
+@media (max-width: 720px) {
+  .cols { grid-template-columns: 1fr; }
+  .brand { width: 100%; }
+  .rec { right: 40px; }
+}
+</style>
+
+<div id="app" dir="rtl" lang="ar">
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">زكريا القرا</a>
+    <nav class="nav" aria-label="أقسام الموقع">
+      <a href="#about">من أنا</a>
+      <a href="#gallery">المعرض</a>
+      <a href="#projects">المشاريع الإغاثية</a>
+      <a href="#contact">تواصل معي</a>
+      <a href="#admin" id="navAdmin" hidden>لوحة التحكم</a>
+    </nav>
+    <div class="me" id="me"><span class="role">زائر</span></div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero" aria-label="مقدمة">
+    <div class="finder">
+      <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+      <span class="rec"><b></b> REC · غزة</span>
+      <h1>زكريا القرا</h1>
+      <p class="lead"><strong>مصوّر ومنتِج فيديو من غزة.</strong> أوثّق المشاريع الإنسانية والإغاثية والمجتمعية، وأحكي قصص الناس بصدق واحترام.</p>
+      <div class="cta">
+        <a class="btn" href="#gallery">شاهد الأعمال</a>
+        <a class="btn ghost" href="#contact">تواصل معي</a>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="band" role="presentation"></div>
+
+<main class="wrap">
+  <section class="sec about" id="about">
+    <div class="eyebrow">من أنا</div>
+    <h2>أصوّر ما يجري، وأحفظ كرامة من أصوّرهم</h2>
+    <div class="cols">
+      <div>
+        <p>أنا زكريا القرا من غزة، أعمل في التصوير وصناعة الفيديو والمونتاج بالموبايل. بدأت مع بداية الحرب تقريبًا، ولدي قرابة سنتين من التوثيق الميداني للمشاريع الإنسانية والإغاثية والمجتمعية.</p>
+        <p>أكتب وأصوّر بطريقة صادقة ومحترمة، توضح أثر المساعدة للمتبرعين دون مبالغة، وتحفظ كرامة العائلات التي أقف أمامها بالكاميرا.</p>
+        <div class="titles">
+          <span class="chip">مصوّر ومونتير</span>
+          <span class="chip">مصوّر مؤسساتي وإغاثي</span>
+          <span class="chip">صانع محتوى إنساني</span>
+        </div>
+      </div>
+      <ul class="skills">
+        <li>التوثيق الميداني</li>
+        <li>سرد القصص الإنسانية</li>
+        <li>تصوير صور وفيديو بجودة جيدة</li>
+        <li>المونتاج</li>
+        <li>محتوى بصري للمؤسسات والمنظمات</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="gallery">
+    <div class="eyebrow">المعرض</div>
+    <h2>صور وفيديو من الميدان</h2>
+    <div id="galleryBody"><div class="empty">جارٍ التحميل…</div></div>
+  </section>
+
+  <section class="sec" id="projects">
+    <div class="eyebrow">المشاريع الإغاثية</div>
+    <h2>ما وثّقته حتى الآن</h2>
+    <div class="tiles" id="tiles"></div>
+    <div class="areas"><span>المناطق:</span><span class="chip">خزاعة</span><span class="chip">خان يونس</span><span class="chip">رفح</span></div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="eyebrow">تواصل معي</div>
+    <h2>لنعمل معًا على توثيق مشروعك</h2>
+    <div id="contactBody"><div class="empty">جارٍ التحميل…</div></div>
+  </section>
+
+  <section class="sec" id="admin" hidden>
+    <div class="eyebrow">للمدير فقط</div>
+    <h2>لوحة التحكم</h2>
+    <div class="panel">
+      <h3>رفع عمل جديد للمعرض</h3>
+      <div class="row">
+        <label class="f">الصور أو الفيديوهات (حتى 20 ميغابايت للملف)<input type="file" id="upFiles" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm" multiple></label>
+        <label class="f">المشروع<select id="upProject"></select></label>
+      </div>
+      <label class="f">وصف قصير<input type="text" id="upCaption" placeholder="مثال: توزيع طرود غذائية في خان يونس"></label>
+      <div><button class="btn" id="upBtn" type="button">رفع ونشر</button> <span class="note" id="upMsg"></span></div>
+    </div>
+    <div class="panel">
+      <h3>بيانات التواصل والأقسام المفتوحة</h3>
+      <div class="row">
+        <label class="f">رقم واتساب<input type="text" id="setWa" placeholder="+972…" dir="ltr"></label>
+        <label class="f">البريد الإلكتروني<input type="text" id="setMail" placeholder="name@example.com" dir="ltr"></label>
+      </div>
+      <div class="note">افتح قسمًا لكل من سجّل دخوله بدل منح الصلاحية شخصًا شخصًا:</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <label class="chk"><input type="checkbox" id="openGallery"> المعرض</label>
+        <label class="chk"><input type="checkbox" id="openContact"> بيانات التواصل</label>
+        <label class="chk"><input type="checkbox" id="openAssistant"> مساعد التصوير</label>
+      </div>
+      <div><button class="btn" id="saveSet" type="button">حفظ</button> <span class="note" id="setMsg"></span></div>
+    </div>
+    <div class="panel">
+      <h3>صلاحيات المستخدمين</h3>
+      <div class="users" id="users"><div class="note">لا يوجد مستخدمون بعد. عندما يطلب أحدهم صلاحية يظهر هنا.</div></div>
+      <p class="note">المستخدم يظهر هنا بعد أن يفتح الموقع بحسابه ويضغط «طلب صلاحية». قسما «من أنا» و«المشاريع» مفتوحان للجميع دائمًا.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="band" role="presentation"></div>
+  <div class="wrap"><div>© 2026 زكريا القرا · غزة، فلسطين</div></div>
+</footer>
+
+<button class="fab" id="fab" type="button" hidden aria-label="فتح مساعد التصوير">مساعد التصوير</button>
+<section class="chat" id="chat" hidden aria-label="مساعد التصوير">
+  <div class="chat-h"><strong>مساعد التصوير</strong><button class="btn ghost small" id="chatClose" type="button">إغلاق</button></div>
+  <div id="chatGate" hidden style="padding:14px"></div>
+  <div id="chatBody" style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div class="msgs" id="msgs">
+      <div class="m a">أهلًا! أنا مساعد مخصص للتصوير فقط: نصائح تصوير بالموبايل، الإضاءة والزوايا، ترتيب اللقطات، كتابة سيناريو الفيديو وكلمات التعليق الصوتي. شو بدك نشتغل عليه؟</div>
+    </div>
+    <div class="sugg" id="sugg">
+      <button type="button">اكتب سيناريو فيديو قصير عن توزيع طرود غذائية</button>
+      <button type="button">كيف أصوّر بالموبايل والإضاءة ضعيفة؟</button>
+      <button type="button">اكتب تعليقًا صوتيًا لفيديو عن محطة مياه</button>
+    </div>
+    <div class="chat-f">
+      <textarea id="chatIn" rows="1" placeholder="اكتب سؤالك عن التصوير أو الفيديو…"></textarea>
+      <button class="btn" id="chatSend" type="button">إرسال</button>
+      <button class="btn ghost" id="chatStop" type="button" hidden>إيقاف</button>
+    </div>
+  </div>
+</section>
+<div class="toast" id="toast" role="status" hidden></div>
+
+</div>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); };
+  var PROJECTS = [
+    { id: 'food', t: 'الطرود الغذائية وأكياس الطحين' },
+    { id: 'milk', t: 'الحليب' },
+    { id: 'water', t: 'المياه النظيفة ومحطات المياه' },
+    { id: 'meals', t: 'الوجبات والتكايا' },
+    { id: 'shelter', t: 'مراكز الإيواء' },
+    { id: 'tents', t: 'الخيام' },
+    { id: 'blankets', t: 'البطانيات والفرش الشتوية' },
+    { id: 'cash', t: 'المساعدات النقدية' },
+    { id: 'seasonal', t: 'خبز رمضان ومساعدات العيد' },
+    { id: 'return', t: 'العائلات العائدة إلى منازل مدمرة' },
+    { id: 'other', t: 'أخرى' }
+  ];
+  var PNAME = {}; PROJECTS.forEach(function (p) { PNAME[p.id] = p.t; });
+  var KEYS = [['gallery', 'المعرض'], ['contact', 'التواصل'], ['assistant', 'المساعد']];
+
+  var S = { uid: null, name: '', avatar: '', isAdmin: false, ready: false, db: null, assets: null, sample: null, user: null,
+    settings: {}, myPerms: null, requested: false, members: {}, allPerms: {}, gallery: [], filter: 'all', profiles: {} };
+
+  function toast(msg) {
+    var t = $('#toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toast.h); toast.h = setTimeout(function () { t.hidden = true; }, 3500);
+  }
+  function has(k) {
+    var open = (S.settings && S.settings.open) || {};
+    return S.isAdmin || (!!S.uid && !!open[k]) || !!(S.myPerms && S.myPerms[k]);
+  }
+  function lock(label) {
+    var msg, btn = '';
+    if (!S.ready) msg = 'جارٍ التحقق من حسابك…';
+    else if (!S.db || !S.uid) msg = 'هذا القسم مخصص للأعضاء. افتح الموقع من حسابك على Claude ليتمكن زكريا من منحك صلاحية.';
+    else if (S.requested) msg = 'تم إرسال طلبك. بانتظار موافقة زكريا.';
+    else { msg = 'ليس لديك صلاحية لهذا القسم بعد.'; btn = '<button class="btn" type="button" data-act="request">طلب صلاحية</button>'; }
+    return '<div class="lock"><strong>' + esc(label) + '</strong><p>' + msg + '</p>' + btn + '</div>';
+  }
+  async function requestAccess() {
+    try {
+      await S.db.doc('members/' + S.uid).set({ at: new Date().toISOString() });
+      S.requested = true; toast('تم إرسال الطلب'); renderAll();
+    } catch (e) { toast('تعذر إرسال الطلب من هذا الحساب. اطلب من زكريا أن يمنحك صلاحية مساهم.'); }
+  }
+
+  /* ---------- renderers ---------- */
+  function renderMe() {
+    var role = S.isAdmin ? 'مدير' : (S.uid ? ((S.myPerms && (S.myPerms.gallery || S.myPerms.contact || S.myPerms.assistant)) ? 'عضو' : 'مسجّل') : 'زائر');
+    var h = '';
+    if (S.avatar && S.uid) h += '<img alt="" src="' + esc(S.avatar) + '">';
+    if (S.name) h += '<span>' + esc(S.name) + '</span>';
+    h += '<span class="role' + (S.isAdmin ? ' admin' : '') + '">' + role + '</span>';
+    if (S.ready && S.db && S.uid && !S.isAdmin && !S.requested && !(S.myPerms && (S.myPerms.gallery || S.myPerms.contact || S.myPerms.assistant)))
+      h += '<button class="btn small" type="button" data-act="request">طلب صلاحية</button>';
+    $('#me').innerHTML = h;
+    $('#admin').hidden = !S.isAdmin; $('#navAdmin').hidden = !S.isAdmin;
+  }
+  function renderProjects() {
+    var counts = {}; S.gallery.forEach(function (g) { counts[g.project] = (counts[g.project] || 0) + 1; });
+    $('#tiles').innerHTML = PROJECTS.filter(function (p) { return p.id !== 'other'; }).map(function (p) {
+      var n = counts[p.id];
+      return '<div class="tile"><h3>' + esc(p.t) + '</h3>' + (n && has('gallery') ? '<span class="n">' + n + ' في المعرض</span>' : '') + '</div>';
+    }).join('');
+  }
+  function renderGallery() {
+    var el = $('#galleryBody');
+    if (!has('gallery')) { el.innerHTML = lock('المعرض'); return; }
+    var used = {}; S.gallery.forEach(function (g) { used[g.project] = 1; });
+    var chips = '<div class="filters"><button class="chip" type="button" data-f="all" aria-pressed="' + (S.filter === 'all') + '">الكل</button>' +
+      PROJECTS.filter(function (p) { return used[p.id]; }).map(function (p) {
+        return '<button class="chip" type="button" data-f="' + p.id + '" aria-pressed="' + (S.filter === p.id) + '">' + esc(p.t) + '</button>';
+      }).join('') + '</div>';
+    var list = S.gallery.filter(function (g) { return S.filter === 'all' || g.project === S.filter; });
+    if (!S.gallery.length) {
+      el.innerHTML = '<div class="empty">' + (S.isAdmin ? 'لا توجد أعمال بعد. ارفع أول صورة أو فيديو من لوحة التحكم أسفل الصفحة.' : 'لم تُنشر أعمال بعد. عد قريبًا.') + '</div>';
+      return;
+    }
+    el.innerHTML = (Object.keys(used).length > 1 ? chips : '') + '<div class="grid">' + list.map(function (g) {
+      var src = '/_blob/' + esc(g.assetId);
+      var media = g.kind === 'video'
+        ? '<video class="media" controls preload="metadata" playsinline src="' + src + '"></video>'
+        : '<img class="media" loading="lazy" alt="' + esc(g.caption || 'صورة من الميدان') + '" src="' + src + '">';
+      var del = S.isAdmin ? '<div><button class="btn danger small" type="button" data-del="' + esc(g.id) + '">حذف</button></div>' : '';
+      return '<figure class="item" style="margin:0">' + media + '<figcaption class="cap"><span>' + esc(g.caption || '') + '</span><span class="tag">' + esc(PNAME[g.project] || '') + '</span>' + del + '</figcaption></figure>';
+    }).join('') + '</div>';
+  }
+  function renderContact() {
+    var el = $('#contactBody');
+    if (!has('contact')) { el.innerHTML = lock('بيانات التواصل'); return; }
+    var s = S.settings || {}, cards = '';
+    if (s.whatsapp) cards += '<div class="card"><span class="k">واتساب</span><span class="v">' + esc(s.whatsapp) + '</span><div><button class="btn ghost small" type="button" data-copy="' + esc(s.whatsapp) + '">نسخ</button></div></div>';
+    if (s.email) cards += '<div class="card"><span class="k">البريد الإلكتروني</span><span class="v">' + esc(s.email) + '</span><div><button class="btn ghost small" type="button" data-copy="' + esc(s.email) + '">نسخ</button></div></div>';
+    el.innerHTML = cards ? '<div class="cards">' + cards + '</div>' : '<div class="empty">' + (S.isAdmin ? 'أضف رقم واتساب أو بريدًا من لوحة التحكم.' : 'سيضيف زكريا بيانات التواصل قريبًا.') + '</div>';
+  }
+  function renderChatGate() {
+    var fab = $('#fab');
+    fab.hidden = !S.sample;
+    var ok = has('assistant');
+    $('#chatGate').hidden = ok; $('#chatBody').style.display = ok ? 'flex' : 'none';
+    if (!ok) $('#chatGate').innerHTML = lock('مساعد التصوير');
+  }
+  async function renderUsers() {
+    if (!S.isAdmin) return;
+    var ids = {}; Object.keys(S.members).forEach(function (k) { ids[k] = 1; }); Object.keys(S.allPerms).forEach(function (k) { ids[k] = 1; });
+    var list = Object.keys(ids);
+    if (S.user && list.length) { try { S.profiles = await S.user.profiles(list); } catch (e) {} }
+    var el = $('#users');
+    if (!list.length) { el.innerHTML = '<div class="note">لا يوجد مستخدمون بعد. عندما يطلب أحدهم صلاحية يظهر هنا.</div>'; return; }
+    el.innerHTML = list.map(function (id) {
+      var p = S.profiles[id] || {}, pr = S.allPerms[id] || {};
+      var isNew = S.members[id] && !S.allPerms[id];
+      return '<div class="user"><span class="nm">' + esc(p.name || 'مستخدم') + (isNew ? '<span class="badge">طلب جديد</span>' : '') + '</span>' +
+        KEYS.map(function (k) { return '<label class="chk"><input type="checkbox" data-u="' + esc(id) + '" data-k="' + k[0] + '"' + (pr[k[0]] ? ' checked' : '') + '> ' + k[1] + '</label>'; }).join('') + '</div>';
+    }).join('');
+  }
+  var raf = 0;
+  function renderAll() {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; renderMe(); renderProjects(); renderGallery(); renderContact(); renderChatGate(); renderUsers(); });
+  }
+  function fillSettings() {
+    var s = S.settings || {}, o = s.open || {}, a = document.activeElement;
+    if (a !== $('#setWa')) $('#setWa').value = s.whatsapp || '';
+    if (a !== $('#setMail')) $('#setMail').value = s.email || '';
+    $('#openGallery').checked = !!o.gallery; $('#openContact').checked = !!o.contact; $('#openAssistant').checked = !!o.assistant;
+  }
+
+  /* ---------- admin actions ---------- */
+  async function saveSettings() {
+    var b = $('#saveSet'); b.disabled = true;
+    try {
+      await S.db.doc('site/settings').set({
+        whatsapp: $('#setWa').value.trim(), email: $('#setMail').value.trim(),
+        open: { gallery: $('#openGallery').checked, contact: $('#openContact').checked, assistant: $('#openAssistant').checked }
+      });
+      $('#setMsg').textContent = 'تم الحفظ';
+    } catch (e) { $('#setMsg').textContent = 'تعذر الحفظ'; }
+    b.disabled = false;
+  }
+  async function upload() {
+    var files = $('#upFiles').files, msg = $('#upMsg');
+    if (!files.length) { msg.textContent = 'اختر ملفًا أولًا'; return; }
+    if (!S.assets) { msg.textContent = 'الرفع غير متاح لهذا الحساب'; return; }
+    var b = $('#upBtn'); b.disabled = true; var done = 0;
+    for (var i = 0; i < files.length; i++) {
+      var f = files[i]; msg.textContent = 'جارٍ رفع ' + (i + 1) + ' من ' + files.length + '…';
+      try {
+        var r = await S.assets.upload(f);
+        await S.db.collection('gallery').add({ assetId: r.id, kind: f.type.indexOf('video') === 0 ? 'video' : 'image', caption: $('#upCaption').value.trim(), project: $('#upProject').value, at: new Date().toISOString() });
+        done++;
+      } catch (e) {
+        msg.textContent = e && e.code === 'too_large' ? 'الملف أكبر من 20 ميغابايت' : (e && e.code === 'unsupported_type' ? 'نوع الملف غير مدعوم' : 'تعذر رفع ' + f.name);
+        b.disabled = false; return;
+      }
+    }
+    $('#upFiles').value = ''; $('#upCaption').value = ''; msg.textContent = 'تم نشر ' + done + ' عمل'; b.disabled = false;
+  }
+  async function delItem(id, btn) {
+    if (btn.dataset.sure !== '1') { btn.dataset.sure = '1'; btn.textContent = 'تأكيد الحذف'; setTimeout(function () { btn.dataset.sure = ''; btn.textContent = 'حذف'; }, 4000); return; }
+    var g = S.gallery.filter(function (x) { return x.id === id; })[0];
+    try { await S.db.doc('gallery/' + id).delete(); if (g && S.assets) await S.assets.delete(g.assetId); toast('تم الحذف'); } catch (e) { toast('تعذر الحذف'); }
+  }
+  async function setPerm(uid, key, val) {
+    var cur = Object.assign({}, S.allPerms[uid] || {}); cur[key] = val;
+    try { await S.db.doc('perms/' + uid).set(cur); } catch (e) { toast('تعذر حفظ الصلاحية'); }
+  }
+
+  /* ---------- chat ---------- */
+  var RULES = 'أنت «مساعد التصوير» داخل موقع المصوّر زكريا القرا من غزة. تختص حصرًا بـ: التصوير بالموبايل والكاميرا، الإضاءة والزوايا والتركيب، تصوير المشاريع الإنسانية والإغاثية باحترام، المونتاج وترتيب اللقطات، كتابة سيناريوهات الفيديو، وكتابة كلمات التعليق الصوتي والنصوص المرافقة للفيديوهات. ' +
+    'قواعد: (1) اكتب بالعربية بأسلوب بسيط وودود وقريب من اللهجة الفلسطينية، وبالفصحى المبسطة إذا كان المطلوب نصًا رسميًا. (2) كن واقعيًا لظروف غزة: كهرباء وإنترنت محدودان، وغالبًا موبايل فقط، فاقترح حلولًا بسيطة بلا معدات غالية. (3) في المحتوى الإنساني احفظ كرامة الناس، ولا تبالغ ولا تستغل الألم، ولا تختلق أرقامًا أو أسماء أو وقائع. (4) إن سُئلت عن أي موضوع خارج التصوير والفيديو والسيناريو والتعليق الصوتي، اعتذر بلطف في جملة واحدة وأعد توجيه الحديث إلى ما تقدر تساعد فيه. (5) اجعل الإجابات منظمة وقصيرة نسبيًا، وجاهزة للنسخ عندما يطلب المستخدم نصًا.';
+  var turns = [], busy = false, ctl = null;
+  function addMsg(cls, text) { var d = document.createElement('div'); d.className = 'm ' + cls; d.textContent = text; $('#msgs').appendChild(d); $('#msgs').scrollTop = 1e9; return d; }
+  function errCopy(c) {
+    return ({ not_granted: 'لم تسمح باستخدام Claude لهذه الصفحة.', sampling_disabled: 'المساعد غير متاح لهذا الحساب.', rate_limited: 'عدد الرسائل كبير الآن، جرّب بعد قليل.', session_expired: 'سجّل دخولك من جديد ثم أعد المحاولة.', refused: 'ما قدرت أجاوب على هالطلب. جرّب صياغة مختلفة.' })[c] || 'حصل خطأ، جرّب مرة ثانية.';
+  }
+  async function send(text) {
+    text = (text || '').trim();
+    if (!text || busy || !S.sample) return;
+    busy = true; $('#chatSend').hidden = true; $('#chatStop').hidden = false; $('#sugg').hidden = true;
+    $('#chatIn').value = '';
+    addMsg('u', text); turns.push({ role: 'user', content: text });
+    var bub = addMsg('a', 'لحظة…'); ctl = new AbortController();
+    try {
+      var r = await S.sample([{ role: 'user', content: RULES }].concat(turns.slice(-12)), { cache: false, signal: ctl.signal, onText: function (u) { bub.textContent = u.text; $('#msgs').scrollTop = 1e9; } });
+      turns.push({ role: 'assistant', content: r.text });
+    } catch (e) {
+      if (e && e.text) { bub.textContent = e.text; turns.push({ role: 'assistant', content: e.text }); }
+      else { bub.remove(); turns.pop(); }
+      if (!e || e.code !== 'cancelled') toast(errCopy(e && e.code));
+    }
+    busy = false; ctl = null; $('#chatSend').hidden = false; $('#chatStop').hidden = true;
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener('click', function (ev) {
+    var t = ev.target.closest('button'); if (!t) return;
+    if (t.dataset.act === 'request') requestAccess();
+    else if (t.dataset.f) { S.filter = t.dataset.f; renderGallery(); }
+    else if (t.dataset.del) delItem(t.dataset.del, t);
+    else if (t.dataset.copy) {
+      var v = t.dataset.copy;
+      try { navigator.clipboard.writeText(v).then(function () { toast('تم النسخ'); }, function () { toast('انسخ النص يدويًا من الشاشة'); }); } catch (e) { toast('انسخ النص يدويًا من الشاشة'); }
+    }
+  });
+  document.addEventListener('change', function (ev) {
+    var c = ev.target; if (c.dataset && c.dataset.u) setPerm(c.dataset.u, c.dataset.k, c.checked);
+  });
+  $('#fab').addEventListener('click', function () { $('#chat').hidden = false; $('#fab').hidden = true; renderChatGate(); });
+  $('#chatClose').addEventListener('click', function () { $('#chat').hidden = true; $('#fab').hidden = !S.sample; });
+  $('#chatSend').addEventListener('click', function () { send($('#chatIn').value); });
+  $('#chatStop').addEventListener('click', function () { if (ctl) ctl.abort(); });
+  $('#chatIn').addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(e.target.value); } });
+  $('#sugg').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) send(b.textContent); });
+  $('#saveSet').addEventListener('click', saveSettings);
+  $('#upBtn').addEventListener('click', upload);
+  $('#upProject').innerHTML = PROJECTS.map(function (p) { return '<option value="' + p.id + '">' + esc(p.t) + '</option>'; }).join('');
+
+  /* ---------- start ---------- */
+  renderProjects(); renderGallery(); renderContact();
+  function use(n) { return (window.claude && window.claude.use) ? window.claude.use(n).catch(function () { return null; }) : Promise.resolve(null); }
+  function mapDocs(snap) { var o = {}; snap.docs.forEach(function (d) { o[d.id] = d.data(); }); return o; }
+  async function init() {
+    var r = await Promise.all([use('user'), use('db'), use('assets'), use('sample')]);
+    S.user = r[0]; S.db = r[1]; S.assets = r[2]; S.sample = r[3];
+    if (S.user) {
+      try { var me = await S.user.me(); S.uid = me.id; S.name = me.name; S.avatar = me.avatarUrl; S.isAdmin = !!me.isOwner || !!me.canEdit; } catch (e) {}
+    }
+    S.ready = true;
+    if (S.db) {
+      var db = S.db, noop = function () {};
+      db.doc('site/settings').onSnapshot(function (s) { S.settings = s.exists ? Object.assign({}, s.data()) : {}; fillSettings(); renderAll(); }, noop);
+      db.collection('gallery').orderBy('at', 'desc').limit(300).onSnapshot(function (s) { S.gallery = s.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); }); renderAll(); }, noop);
+      if (S.uid) {
+        db.doc('perms/' + S.uid).onSnapshot(function (s) { S.myPerms = s.exists ? Object.assign({}, s.data()) : null; renderAll(); }, noop);
+        db.doc('members/' + S.uid).onSnapshot(function (s) { S.requested = s.exists; renderAll(); }, noop);
+      }
+      if (S.isAdmin) {
+        db.collection('members').onSnapshot(function (s) { S.members = mapDocs(s); renderAll(); }, noop);
+        db.collection('perms').onSnapshot(function (s) { S.allPerms = mapDocs(s); renderAll(); }, noop);
+      }
+    }
+    renderAll();
+  }
+  init();
+})();
+</script>
